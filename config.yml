@@ -1,0 +1,47 @@
+houston:
+  - name: clay_st
+    sensors:
+      - weather
+      - traffic
+      - air_quality
+    location:
+      lat: 29.742079234296156
+      long: -95.34625445767158
+  - name: lyons_ave
+    sensors:
+      - weather
+      - traffic
+      - air_quality
+    location:
+      lat: 29.77666625781551
+      long: -95.31539968940213
+chicago:
+  - name: w_goethe_st
+    sensors:
+      - traffic
+      - air_quality
+    location:
+      lat: 41.90587258379623
+      long: -87.63444084296869
+  - name: lyons_ave
+    sensors:
+      - traffic
+      - air_quality
+    location:
+      lat: 41.91300931880483
+      long: -87.63843998714738
+austin:
+  - name: harmon_ave
+    sensors:
+      - weather
+      - air_quality
+    location:
+      lat: 30.302214887524038
+      long: -97.71748613171556
+  - name: hampton_rd
+    sensors:
+      - weather
+      - traffic
+    location:
+      lat: 30.292399617881824
+      long: -97.72776190288003
