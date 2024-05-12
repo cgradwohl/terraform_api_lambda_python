@@ -55,6 +55,12 @@ jobs:
           terraform apply -auto-approve
         working-directory: ./terraform/ecr
 
+      - name: Log ECR Outputs after Terraform Apply
+        run: |
+          echo "ECR Repository Name: $(terraform output -raw ecr_repository_name)"
+          echo "ECR Repository URL: $(terraform output -raw ecr_repository_url)"
+        working-directory: ./terraform/ecr
+
       - name: Output ECR Repository Name
         id: set_output
         run: |
