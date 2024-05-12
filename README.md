@@ -12,7 +12,7 @@ Hello and thank you for taking the time to review my code. I really enjoyed this
 
 My biggest constraint was time, since I have a full time job and a family. So I treated this project like an mvp or proof of concept, that I could show my team and get buy in for the general technical approach.
 
-I created a prioritized list of tasks that I would like to accomplish next ([see Next Steps](#next-steps)).
+I created a prioritized list of tasks that I would like to accomplish next ([see Next Steps](##next-steps)).
 
 With that being said, I decided to focus on four things:
 
@@ -21,7 +21,7 @@ With that being said, I decided to focus on four things:
 3. simple ci/cd workflow
 4. unit testing
 
-I did not focus on implementing production-ready requirements or best practices ([see Next Steps](#next-steps)).
+I did not focus on implementing production-ready requirements or best practices ([see Next Steps](##next-steps)).
 
 ## Architecture
 
@@ -71,9 +71,9 @@ This script will accomplish two things for you:
 
 ### 3. Push the repo to Github
 
-Create a new repo on github. Name it `playq_chris_gradwohl`.
+Create a new remote repository on github. Name it `playq_chris_gradwohl`.
 
-Push this project to the new remote repository:
+Push this project to your new remote repository:
 
 ```bash
 git init
@@ -89,11 +89,9 @@ git push -u origin main
 
 On first push, the workflow should fail due to missing access keys.
 
-Find the IAM admin user's (from a sandbox account) access key and secret access key and record them as secrets in the github repo.
+Use the access keys from the IAM User you created in the [prerequisites](###prerequisites) section and add them as secrets in the github repository.
 
-(From the github repo) Settings > Secrets and variables > Actions
-
-Then click New repository secret button.
+(From the github repo) Settings > Secrets and variables > Actions. Then click New repository secret button.
 
 Create `AWS_SECRET_ACCESS_KEY` and `AWS_ACCESS_KEY_ID` secrets.
 
