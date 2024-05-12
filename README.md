@@ -33,11 +33,11 @@ If you would like to run the CI/CD workflow in your own Github repo and deploy t
 
 ### prerequisites
 
-Due to time constraints, I decided to use AWS Access to provide permissions to the CI/CD instead of setting up the prefered OpenId provider.
+Due to time constraints, I decided to use IAM User Access Keys to provide permissions to the CI/CD instead of setting up the prefered OpenId provider.
 
-So in a sandbox AWS account, create an AWS IAM Admin and generate access keys for this user. We will use these credentials for our Github workflow.
+So in a sandbox AWS account, create an AWS IAM Admin User and generate access keys for this User. We will use these credentials for our Github workflow.
 
-Set these keys as your default profile on your local machine.
+Set these keys as your default profile on your local machine (used for bootstrapping).
 
 You will also need a Github account.
 
