@@ -98,6 +98,11 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
+      - name: Log ECR URL
+        run: |
+          echo "${{ steps.login-ecr.outputs.registry }}/${{ needs.deploy_ecr.outputs.ecr_repository_name }}"
+        working-directory: ./terraform/ecr
+
       - name: Deploy API, S3
         run: |
           terraform init
