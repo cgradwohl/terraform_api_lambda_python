@@ -290,7 +290,7 @@ resource "aws_s3_object" "config_file" {
   bucket = aws_s3_bucket.sensor_data_bucket.bucket
   key    = "config.yml"
   source = "../../config.yml"
-  etag   = filemd5("../config.yml")
+  etag   = filemd5("../../config.yml")
 }
 
 ####

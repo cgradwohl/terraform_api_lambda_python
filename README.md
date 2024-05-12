@@ -29,7 +29,7 @@ I did not focus on implementing production-ready requitements or best practices 
 
 ## Getting Started
 
-If you would like to run the ci/cd workflow and deploy the infrastructure, then follow these steps.
+If you would like to run the CI/CD workflow in your own Github repo and deploy the infrastructure to your own AWS account then follow these steps.
 
 ### prerequisites
 
@@ -41,7 +41,17 @@ Set these keys as your default profile on your local machine.
 
 You will also need a Github account.
 
-### 1. Bootstrap the remote backend for terraform
+### 1. Clone the repo and remove git tracking
+
+```bash
+git clone git@github.com:cgradwohl/terraform_api_lambda_python.git
+
+cd terraform_api_lambda_python
+
+rm -rf .git
+```
+
+### 2. Bootstrap the remote backend for terraform
 
 From the root directory run the following bash command in your terminal.
 
@@ -51,15 +61,15 @@ chmod +x ./bootstrap.sh
 ./bootstrap.sh
 ```
 
-Enter the `us-west-1` region.
+Press enter to use the `us-west-1` region or specify another valid region.
 
 This script will accomplish two things for you:
 
-- 1. It will deploy an S3 bucket, a DynamoDB table and IAM Policy to manage the state of the application infrastructure.
+- 1. It will deploy an S3 bucket, a DynamoDB table and IAM Policy required for Terraform to manage the state of the infrastructure.
 
-- 2. It will write the terraform configuration for the application infrastructure in terraform/backend. The Github workflow will then use this configuration to initialize and apply the deployment plans.
+- 2. It will write the terraform configuration for terraform/ecr/backend.tf and terraform/api/backend.tf.
 
-### 2. Push the repo to Github
+### 3. Push the repo to Github
 
 Create a new repo on github. Name it `playq_chris_gradwohl`.
 
@@ -75,7 +85,7 @@ git branch -M main
 git push -u origin main
 ```
 
-### 3. Configure Github Secrets
+### 4. Configure Github Secrets
 
 On first push, the workflow should fail due to missing access keys.
 
@@ -89,7 +99,7 @@ Create `AWS_SECRET_ACCESS_KEY` and `AWS_ACCESS_KEY_ID` secrets.
 
 Finally re-run the workflow.
 
-### 4. Invoke the API
+### 5. Invoke the API
 
 Obtain the invoke_url from the `Deploy (App Infra) with Terraform` action of the `Deploy App Infra` job.
 
