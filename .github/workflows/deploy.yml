@@ -87,6 +87,11 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
+      - name: Log ECR Outputs
+        run: |
+          echo "ECR Repository Name: ${{ needs.deploy_ecr.outputs.ecr_repository_name }}"
+          echo "ECR Repository URL: ${{ needs.deploy_ecr.outputs.ecr_repository_url }}"
+
       - name: Build, tag, and push images to Amazon ECR
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
