@@ -3,13 +3,6 @@ provider "aws" {
 }
 
 ####
-# ECR
-####
-resource "aws_ecr_repository" "sensor_rest_api_ecr_repo" {
-  name = "sensor_rest_api_ecr_repo"
-}
-
-####
 # IAM
 ####
 # custom policies
@@ -246,7 +239,7 @@ resource "aws_lambda_function" "authorizer" {
   function_name = "authorizer"
   architectures = ["arm64"]
   package_type  = "Image"
-  image_uri     = "${aws_ecr_repository.sensor_rest_api_ecr_repo.repository_url}:authorizer_${var.image_tag}"
+  image_uri     = "${var.ecr_repository_url}:authorizer_${var.image_tag}"
   role          = aws_iam_role.authorizer_role.arn
   timeout       = 15
   environment {
@@ -259,7 +252,7 @@ resource "aws_lambda_function" "get_handler" {
   function_name = "get_handler"
   architectures = ["arm64"]
   package_type  = "Image"
-  image_uri     = "${aws_ecr_repository.sensor_rest_api_ecr_repo.repository_url}:get_handler_${var.image_tag}"
+  image_uri     = "${var.ecr_repository_url}:get_handler_${var.image_tag}"
   role          = aws_iam_role.get_handler_role.arn
   timeout       = 15
   environment {
@@ -272,7 +265,7 @@ resource "aws_lambda_function" "ingest_handler" {
   function_name = "ingest_handler"
   architectures = ["arm64"]
   package_type  = "Image"
-  image_uri     = "${aws_ecr_repository.sensor_rest_api_ecr_repo.repository_url}:ingest_handler_${var.image_tag}"
+  image_uri     = "${var.ecr_repository_url}:ingest_handler_${var.image_tag}"
   role          = aws_iam_role.ingest_handler_role.arn
   timeout       = 15
   environment {

@@ -67,15 +67,20 @@ TABLE_NAME=$(terraform output -raw terraform_state_locktable_name)
 
 # Check if the outputs and account info were successfully retrieved
 if [ -n "$BUCKET_NAME" ] && [ -n "$TABLE_NAME" ] && [ -n "$AWS_REGION" ]; then
-    # Specify the correct path to dev_backend.hcl
-    BACKEND_CONFIG_PATH="../terraform/backend.tf"
-    if [ ! -f "$BACKEND_CONFIG_PATH" ]; then
-        echo "Creating backend.tf"
-        touch "$BACKEND_CONFIG_PATH"
+    BACKEND_CONFIG_API_PATH="../terraform/api/backend.tf"
+    if [ ! -f "$BACKEND_CONFIG_API_PATH" ]; then
+        echo "Creating backend.tf for api resources"
+        touch "$BACKEND_CONFIG_API_PATH"
+    fi
+
+    BACKEND_CONFIG_ECR_PATH="../terraform/ecr/backend.tf"
+    if [ ! -f "$BACKEND_CONFIG_ECR_PATH" ]; then
+        echo "Creating backend.tf for ecr resources."
+        touch "$BACKEND_CONFIG_ECR_PATH"
     fi
     
     # TODO: ideally we would write these values to AWS Secrets or something similar
-cat <<EOF > "$BACKEND_CONFIG_PATH"
+cat <<EOF > "$BACKEND_CONFIG_API_PATH"
 terraform {
     required_providers {
         aws = {
@@ -84,7 +89,24 @@ terraform {
     }
     backend "s3" {
         bucket         = "$BUCKET_NAME"
-        key            = "dev/state/terraform.tfstate"
+        key            = "dev/state/api/terraform.tfstate"
+        region         = "$AWS_REGION"
+        dynamodb_table = "$TABLE_NAME"
+        encrypt        = true
+    }
+}
+EOF
+
+cat <<EOF > "$BACKEND_CONFIG_ECR_PATH"
+terraform {
+    required_providers {
+        aws = {
+            source = "hashicorp/aws"
+        }
+    }
+    backend "s3" {
+        bucket         = "$BUCKET_NAME"
+        key            = "dev/state/ecr/terraform.tfstate"
         region         = "$AWS_REGION"
         dynamodb_table = "$TABLE_NAME"
         encrypt        = true

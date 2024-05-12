@@ -32,7 +32,6 @@ jobs:
           python -m unittest discover -s ./tests/test_lib -p 'test_*.py'
         working-directory: ./functions
 
-  # TODO: here for bootstraping, remove this build step and add depends on in terraform.
   deploy_ecr:
     name: Deploy ECR Repository
     runs-on: ubuntu-latest
@@ -53,21 +52,22 @@ jobs:
       - name: Deploy (ECR) with Terraform
         run: |
           terraform init
-          terraform apply -target=aws_ecr_repository.sensor_rest_api_ecr_repo -auto-approve
-        env:
-          TF_VAR_image_tag: ${{ github.sha }}
-        working-directory: ./terraform
+          terraform apply -auto-approve
+        working-directory: ./terraform/ecr
 
       - name: Output ECR Repository Name
         id: set_output
-        run: echo "::set-output name=ECR_REPOSITORY_NAME::$(terraform output -raw ecr_repository_name)"
-        working-directory: ./terraform
+        run: |
+          echo "::set-output name=ECR_REPOSITORY_NAME::$(terraform output -raw ecr_repository_name)"
+          echo "::set-output name=ECR_REPOSITORY_URL::$(terraform output -raw ecr_repository_url)"
+        working-directory: ./terraform/ecr
 
     outputs:
       ecr_repository_name: ${{ steps.set_output.outputs.ECR_REPOSITORY_NAME }}
+      ecr_repository_url: ${{ steps.set_output.outputs.ECR_REPOSITORY_URL }}
 
-  deploy_app_infra:
-    name: Deploy App Infra
+  deploy_api:
+    name: Deploy API
     needs: [run_lib_tests, deploy_ecr]
     runs-on: ubuntu-latest
     steps:
@@ -100,10 +100,11 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
-      - name: Deploy (App Infra) with Terraform
+      - name: Deploy API, S3
         run: |
           terraform init
           terraform apply -auto-approve
         env:
           TF_VAR_image_tag: ${{ github.sha }}
-        working-directory: ./terraform
+          TF_VAR_ecr_repository_url: ${{ needs.deploy_ecr.outputs.ecr_repository_url }}
+        working-directory: ./terraform/api
