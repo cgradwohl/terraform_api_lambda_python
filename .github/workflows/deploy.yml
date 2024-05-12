@@ -8,7 +8,7 @@ env:
   AWS_REGION: us-west-1
 
 jobs:
-  run_lib_tests:
+  tests:
     name: Run lib tests
     runs-on: ubuntu-latest
     steps:
