@@ -118,7 +118,7 @@ Here is my thought process to improve the code base, developer workflows and get
 7. Setup Lambda versioning, aliasing to enable trivial rollbacks.
 8. Add failure destinations for API Gateway, and Lambda handlers.
 9. Setup API metrics and alerting.
-10. Improve CI/CD to run faster.
+10. Improve CI/CD to run faster and only when necessary.
 
 ## Potential Feature's Roadmap
 
