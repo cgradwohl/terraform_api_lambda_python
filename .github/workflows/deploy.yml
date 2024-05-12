@@ -33,7 +33,7 @@ jobs:
         working-directory: ./functions
 
   deploy_ecr:
-    name: Deploy ECR Repository
+    name: Deploy ECR
     runs-on: ubuntu-latest
     needs: run_lib_tests
     steps:
