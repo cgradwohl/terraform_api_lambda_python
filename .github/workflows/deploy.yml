@@ -55,22 +55,14 @@ jobs:
           terraform apply -auto-approve
         working-directory: ./terraform/ecr
 
-      - name: Log ECR Outputs after Terraform Apply
-        run: |
-          echo "ECR Repository Name: $(terraform output -raw ecr_repository_name)"
-          echo "ECR Repository URL: $(terraform output -raw ecr_repository_url)"
-        working-directory: ./terraform/ecr
-
       - name: Output ECR Repository Name
         id: set_output
         run: |
           echo "::set-output name=ECR_REPOSITORY_NAME::$(terraform output -raw ecr_repository_name)"
-          echo "::set-output name=ECR_REPOSITORY_URL::$(terraform output -raw ecr_repository_url)"
         working-directory: ./terraform/ecr
 
     outputs:
       ecr_repository_name: ${{ steps.set_output.outputs.ECR_REPOSITORY_NAME }}
-      ecr_repository_url: ${{ steps.set_output.outputs.ECR_REPOSITORY_URL }}
 
   deploy_api:
     name: Deploy API
@@ -93,11 +85,6 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
-      - name: Log ECR Outputs
-        run: |
-          echo "ECR Repository Name: ${{ needs.deploy_ecr.outputs.ecr_repository_name }}"
-          echo "ECR Repository URL: ${{ needs.deploy_ecr.outputs.ecr_repository_url }}"
-
       - name: Build, tag, and push images to Amazon ECR
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
@@ -117,5 +104,5 @@ jobs:
           terraform apply -auto-approve
         env:
           TF_VAR_image_tag: ${{ github.sha }}
-          TF_VAR_ecr_repository_url: ${{ needs.deploy_ecr.outputs.ecr_repository_url }}
+          TF_VAR_ecr_repository_url: "${{ steps.login-ecr.outputs.registry }}/${{ needs.deploy_ecr.outputs.ecr_repository_name }}"
         working-directory: ./terraform/api
