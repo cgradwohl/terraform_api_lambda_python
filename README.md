@@ -105,7 +105,7 @@ Or visit the AWS console to get the `sensor_rest_api` stage url.
 
 ## Next Steps {#next-steps}
 
-Here is my thought process to improve the code bath, developer workflows and get ready to go to production.
+Here is my thought process to improve the code base, developer workflows and get ready to go to production.
 
 1. Standardize dependecy management.
    To save time I manually managed all dependecies, but I would like to add more robust and safe dependcy manage tooling like Poetry.
