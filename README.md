@@ -21,7 +21,7 @@ With that being said, I decided to focus on four things:
 3. simple ci/cd workflow
 4. unit testing
 
-I did not focus on implementing production-ready requitements or best practices ([see Next Steps](#next-steps)).
+I did not focus on implementing production-ready requirements or best practices ([see Next Steps](#next-steps)).
 
 ## Architecture
 
