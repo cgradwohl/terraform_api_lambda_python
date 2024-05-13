@@ -107,10 +107,9 @@ Or visit the AWS console to get the `sensor_rest_api` stage url.
 
 Here is my thought process to improve the code base, developer workflows and get ready to go to production.
 
-1. Standardize dependency management.
-   To save time I manually managed all dependencies, but I would like to add more robust and safe dependency management tooling like Poetry or bash scripts.
-2. Finish unit testing handlers, lib and terraform.
+1. Finish unit testing handlers, lib and terraform.
    I ran out of time to complete this, but I was able to add a few basic tests.
+2. Standardize and improve dependency management (pip-tools), separate test, app requirements, add venv to the container, etc.
 3. Setup OpenID connect permissions and remove aws access keys.
 4. Add handler e2e tests and provision a test environment.
 5. Create Terraform modules for Lmabdas, API Gateway and IAM to reduce duplication and improve best practices.
